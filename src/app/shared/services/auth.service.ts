@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import * as Parse from 'parse';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -8,8 +9,8 @@ import * as Parse from 'parse';
 export class AuthService {
 
   constructor() { 
-    Parse.initialize('instashopInterviewAppId');
-    (Parse as any).serverURL='http://localhost:4242/parse';
+    Parse.initialize(environment.appId);
+    (Parse as any).serverURL=environment.serverURL;
   }
 
   private sessionToken:string;

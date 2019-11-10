@@ -1,16 +1,14 @@
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
-import { Landmark } from "../models/landmark.model";
-import { HttpClient } from "@angular/common/http";
 import * as Parse from 'parse';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: "root"
 })
 export class LandmarkService {
   constructor() {
-    Parse.initialize('instashopInterviewAppId');
-    (Parse as any).serverURL='http://localhost:4242/parse';
+    Parse.initialize(environment.appId);
+    (Parse as any).serverURL=environment.serverURL;
   }
 
   getLandmarks():Promise<Parse.Object[]>{
