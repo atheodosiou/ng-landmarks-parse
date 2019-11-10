@@ -1,0 +1,37 @@
+<section id="login-wrapper" class="container-fluid h-100">
+  <div class="row h-100 justify-content-center">
+    <div class="col-12 col-sm-6 col-md-5 col-lg-4 col-xl-3 my-auto">
+      <div class="card shadow-sm">
+        <div class="card-header pt-4 border-bottom-0 bg-white">
+          <h4 class="mb-0 text-center">
+            Log in to Dubai Landmarks
+          </h4>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="loginForm" class="form" (ngSubmit)="onSubmit(loginForm.value)">
+            <div class="form-group">
+              <label for="username" class="col-form-label">Username</label>
+              <input id="username" type="text" formControlName="username" class="form-control" placeholder="John Doe" />
+            </div>
+            <!-- [(ngModel)]="username" -->
+
+            <div class="form-group">
+              <label for="password" class="col-form-label">Password</label>
+              <input id="password" type="password" formControlName="password" class="form-control"
+                placeholder="password" />
+            </div>
+            <!-- [(ngModel)]="password" -->
+            <button class="btn btn-block btn-primary" type="submit">Log in</button>
+            <button class="btn btn-block btn-secondary" type="button" (click)="onLogOut()">Log out</button>
+          </form>
+        </div>
+        <div class="card-footer pb-4 bg-white border-top-0 py-3">
+          <p class="text-center mb-0">
+            New here? Create an
+            <a [routerLink]="['/signup']">account</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

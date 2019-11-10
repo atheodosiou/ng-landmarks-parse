@@ -1,0 +1,8 @@
+@import "src/assets/variables";
+.cursor-pointer {
+  color: $secondary;
+  &:hover {
+    color: $dark;
+    cursor: pointer;
+  }
+}

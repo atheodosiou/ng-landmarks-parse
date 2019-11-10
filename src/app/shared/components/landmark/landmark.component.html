@@ -1,0 +1,42 @@
+<div class="card mb-3">
+  <div class="card-body">
+    <div class="d-flex align-items-center">
+      <img
+        class="mr-2"
+        src="assets/images/photo.svg"
+        alt="not image"
+        height="100"
+      />
+      <div>
+        <h6>
+          <a [href]="landmark?.attributes?.url" target="_blank">{{ landmark?.attributes?.title }}</a>
+        </h6>
+        <ng-container
+          *ngTemplateOutlet="isCollapsed ? shortText : fullText"
+        ></ng-container>
+        <ng-template #shortText>
+          <p class="text-justify mb-0">
+            {{ landmark?.attributes?.short_info | ellipsis: 120 }}
+            <span class="cursor-pointer" (click)="isCollapsed = !isCollapsed"
+              >read more</span
+            >
+          </p>
+        </ng-template>
+        <ng-template #fullText>
+          <p class="text-justify mb-0">
+            {{ landmark?.attributes?.short_info }}
+            <span class="cursor-pointer" (click)="isCollapsed = !isCollapsed"
+              >show less</span
+            >
+          </p>
+        </ng-template>
+        <a
+          class="btn btn-link float-right"
+          [routerLink]="['/landmark/' + landmark?.id]"
+        >
+          Read more
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
