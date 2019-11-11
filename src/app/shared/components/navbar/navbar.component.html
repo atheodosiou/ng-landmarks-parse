@@ -20,13 +20,29 @@
   <div class="collapse navbar-collapse" id="navbar-collapse">
     <ul class="navbar-nav ml-auto">
       <li class="nav-item">
-        <a
-          [routerLink]="['/login']"
-          class="nav-link"
-          [routerLinkActive]="['text-success', 'font-weight-bold']"
-          >Login</a
-        >
-      </li>
+          <a
+            [routerLink]="['/dashboard']"
+            class="nav-link"
+            [routerLinkActive]="['text-success', 'font-weight-bold']"
+            >Dashboard</a
+          >
+        </li>
+        <li *ngIf="!logedIn" class="nav-item">
+            <a
+              [routerLink]="['/login']"
+              class="nav-link"
+              [routerLinkActive]="['text-success', 'font-weight-bold']"
+              >Login</a
+            >
+          </li>
+          <li *ngIf="logedIn" class="nav-item">
+              <a
+              (click)="logOut()"
+                class="nav-link"
+                [routerLinkActive]="['text-success', 'font-weight-bold']"
+                >Logout</a
+              >
+            </li>
     </ul>
   </div>
 </nav>

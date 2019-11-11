@@ -1,5 +1,6 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
+import { AuthGaurd } from './shared/gaurds/AuthGaurd.service';
 
 const routes: Routes = [
   {
@@ -20,7 +21,8 @@ const routes: Routes = [
   {
     path: "dashboard",
     loadChildren: () =>
-      import("./shared/pages/dashboard/dashboard.module").then(d=>d.DashboardModule)
+      import("./shared/pages/dashboard/dashboard.module").then(d=>d.DashboardModule),
+      canActivate:[AuthGaurd]
   },
   {
     path: "404",
@@ -42,6 +44,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers:[AuthGaurd]
 })
 export class AppRoutingModule {}
