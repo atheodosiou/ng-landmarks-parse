@@ -1,6 +1,5 @@
 import { Component, OnInit } from "@angular/core";
 import { LandmarkService } from "../../services/landmark.service";
-import { Landmark } from '../../models/landmark.model';
 
 @Component({
   selector: "home",
@@ -33,4 +32,5 @@ export class HomeComponent implements OnInit {
   //     a.order > b.order ? 1 : -1
   //   );
   // }
+
 }

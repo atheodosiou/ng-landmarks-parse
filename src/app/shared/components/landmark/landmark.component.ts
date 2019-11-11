@@ -1,5 +1,6 @@
-import { Component, Input } from "@angular/core";
+import { Component, Input, Output, EventEmitter } from "@angular/core";
 import { Landmark } from "../../models/landmark.model";
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: "landmark",
@@ -9,5 +10,13 @@ import { Landmark } from "../../models/landmark.model";
 export class LandmarkComponent {
   isCollapsed: boolean = true;
   @Input() landmark: any;
-  constructor() {}
+
+  constructor(private modalService: NgbModal) {}
+  onClick(content){
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', centered:true, size: 'xl'}).result.then((result) => {
+      console.log('Modal closed!')
+     }, (reason) => {
+       console.log('Modal cannot close correctly!')
+     });
+  }
 }
