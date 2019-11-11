@@ -4,3 +4,8 @@
   min-height: 100vh;
   background: #f7f7f7;
 }
+
+.affix {
+  top:calc(70.38px + 3rem);
+  position:fixed;
+}
