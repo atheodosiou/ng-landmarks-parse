@@ -52,4 +52,13 @@ export class LandmarkService {
   getData(): Observable<any> {
     return this.http.get('../../assets/data/landmarks.json')
   }
+
+  fileUpload(file:File){
+    if(file){
+      const parseFile=new Parse.File(file.name,file);
+      parseFile.save().then(data=>{console.log('File uploaded to parse server!',data)}).catch(error=>{console.log('Could not updoad the file!')});
+    }else{
+      console.log('File needed!');
+    }
+  }
 }
