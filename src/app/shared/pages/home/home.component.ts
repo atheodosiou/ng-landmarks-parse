@@ -10,6 +10,11 @@ export class HomeComponent implements OnInit {
   constructor(private landmarkService: LandmarkService) {}
   
   landmarks:any[];
+
+  title = 'My first AGM project';
+  lat = 51.678418;
+  lng = 7.809007;
+
   ngOnInit() {
     console.log('Get landmarks...');
     this.landmarkService.getData().subscribe(data=>{

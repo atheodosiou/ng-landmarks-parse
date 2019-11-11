@@ -3,7 +3,8 @@ import { CommonModule } from "@angular/common";
 import { HomeComponent } from "./home.component";
 import { RouterModule } from "@angular/router";
 import { SharedModule } from "../../shared.module";
-
+import { AgmCoreModule } from '@agm/core';
+import { environment } from 'src/environments/environment';
 @NgModule({
   imports: [
     CommonModule,
@@ -13,7 +14,10 @@ import { SharedModule } from "../../shared.module";
         path: "",
         component: HomeComponent
       }
-    ])
+    ]),
+    AgmCoreModule.forRoot({
+      apiKey: environment.googleMapsApiKey
+    })
   ],
   declarations: [HomeComponent],
   exports: [HomeComponent]

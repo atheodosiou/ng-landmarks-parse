@@ -8,4 +8,11 @@
 .affix {
   top:calc(70.38px + 3rem);
   position:fixed;
+  margin-right: 2em !important;
+}
+
+agm-map {
+  height: 500px;
+ min-width: 500px;
+ width: 900px;
 }
