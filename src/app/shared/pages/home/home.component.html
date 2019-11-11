@@ -1,14 +1,19 @@
 <div class="container-fluid h-100">
   <div class="row h-100 align-items-center">
     <div class="col-12 col-md-6">
-      <landmark *ngFor="let l of landmarks" [landmark]="l"></landmark>
+      <landmark *ngFor="let l of landmarks" [landmark]="l" (onSelect)="onLandmarkSelect($event)"></landmark>
     </div>
     <div class="col-12 col-md-6">
-      <div class="card affix h-50">
-        <agm-map [latitude]="lat" [longitude]="lng">
-          <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
-        </agm-map>
-      </div>
+        <div class="h-50 affix">
+          <!-- Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti optio incidunt beatae ut voluptas ad eveniet placeat mollitia, itaque quaerat non quibusdam perspiciatis saepe est iste exercitationem blanditiis odit iure! -->
+            <agm-map [latitude]="selectedLandmark.location[1]" [longitude]="selectedLandmark.location[0]" [zoom]="zoom">
+                <agm-marker [latitude]="selectedLandmark.location[1]" [longitude]="selectedLandmark.location[0]">
+                    <agm-info-window>{{selectedLandmark?.title}}</agm-info-window>
+                </agm-marker>
+              </agm-map>
+              <!-- <p class="text-secondary mt-2">Click on landmark to see it's location!</p> -->
+        </div>
+        
     </div>
   </div>
 </div>

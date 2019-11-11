@@ -10,6 +10,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 export class LandmarkComponent {
   isCollapsed: boolean = true;
   @Input() landmark: any;
+  @Output() onSelect:EventEmitter<any>=new EventEmitter<any>();
 
   constructor(private modalService: NgbModal) {}
   onClick(content){
@@ -18,5 +19,9 @@ export class LandmarkComponent {
      }, (reason) => {
        console.log('Modal cannot close correctly!')
      });
+  }
+
+  onLandmarkClick(){
+    this.onSelect.emit(this.landmark);
   }
 }

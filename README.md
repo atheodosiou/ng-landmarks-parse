@@ -4,5 +4,4 @@
 #### Dependencies
 Bootstrap
 Ng-bootstrap
-Leaflet.js
-@asymmetrik/ngx-leaflet
+Angular Google Maps

@@ -10,11 +10,11 @@ export class HomeComponent implements OnInit {
   constructor(private landmarkService: LandmarkService) {}
   
   landmarks:any[];
-
-  title = 'My first AGM project';
+  selectedLandmark={title:'Dubai',location:[55.2623135,25.2050773]};
   lat = 51.678418;
   lng = 7.809007;
-
+  zoom=13;
+  
   ngOnInit() {
     console.log('Get landmarks...');
     this.landmarkService.getData().subscribe(data=>{
@@ -38,4 +38,8 @@ export class HomeComponent implements OnInit {
   //   );
   // }
 
+  onLandmarkSelect(landmark:any){
+    this.selectedLandmark=landmark;
+    console.log('Selected landmark:',landmark)
+  }
 }

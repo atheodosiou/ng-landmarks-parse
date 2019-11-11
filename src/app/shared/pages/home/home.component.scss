@@ -8,11 +8,14 @@
 .affix {
   top:calc(70.38px + 3rem);
   position:fixed;
-  margin-right: 2em !important;
+  display: flex;
+  margin-right: 2em;
 }
 
 agm-map {
-  height: 500px;
- min-width: 500px;
- width: 900px;
+  // display: inline-block;
+  height: 600px;
+  // min-height: 400px;
+  // min-width: 400px;
+  width: 900px;
 }
