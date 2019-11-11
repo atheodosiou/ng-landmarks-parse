@@ -1,9 +1,27 @@
 <div class="container-fluid h-100">
-  <div class="row h-100 align-items-center">
+  <div class="row h-100">
+    <div class="col-12 d-flex align-items-center">
+        <img
+        class="img-responsive mx-auto d-block"
+        src="assets/images/photo.svg"
+        alt="not image"
+      />            
+    </div>
     <div class="col-12">
-      <pre>
-        {{landmarks}}
-      </pre>
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">{{ landmark?.title }}</h4>
+                <p class="text-justify mb-2 text-success">Short info</p>
+                <p class="text-justify mb-2">
+                  {{ landmark?.short_info }}
+                </p>
+                <p class="text-justify mb-2 text-success">Description</p>
+                <p class="text-justify mb-2">
+                    {{ landmark?.description }}
+                </p>
+                <a [attr.href]="landmark?.url" target="_blanck" class="badge badge-success">Go to Official Site</a>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-</div>

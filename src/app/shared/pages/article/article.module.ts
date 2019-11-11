@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ArticleComponent } from './article.component';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { EllipsisPipe } from '../../pipes/ellipsis.pipe';
 
 @NgModule({
   imports: [
