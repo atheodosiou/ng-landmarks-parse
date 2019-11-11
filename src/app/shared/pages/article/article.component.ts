@@ -14,16 +14,24 @@ export class ArticleComponent implements OnInit {
   landmark:any;
   landmarks:any;
   ngOnInit() {
-   if(this.landmarkService.landmarks){
     this.route.params.subscribe(params => {
       const landmarkId = params['landmarkId'];
       console.log(landmarkId)
-      this.landmark = this.landmarkService.landmarks.find(l=>l._id === landmarkId);
-      console.log(this.landmark)
+
+      if(this.landmarkService.landmarks){
+        this.landmark = this.landmarkService.landmarks.find(l=>l.id === landmarkId);
+        console.log(this.landmark)
+      }else{
+        console.log('Landmarks does not exists!')
+        this.landmarkService.getLandmark(landmarkId).then(l=>{
+          this.landmark=l
+        }).catch(error=>{
+          console.log('Cannot get landmark by ID!')
+        });
+      }
     });    
-   }else{
-     console.log('Landmarks does not exists!')
-   }
+
+   
   }
 
 }

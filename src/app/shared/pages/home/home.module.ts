@@ -5,6 +5,7 @@ import { RouterModule } from "@angular/router";
 import { SharedModule } from "../../shared.module";
 import { AgmCoreModule } from '@agm/core';
 import { environment } from 'src/environments/environment';
+import { LoadingModule } from '../../components/loading/loading.module';
 @NgModule({
   imports: [
     CommonModule,
@@ -17,7 +18,8 @@ import { environment } from 'src/environments/environment';
     ]),
     AgmCoreModule.forRoot({
       apiKey: environment.googleMapsApiKey
-    })
+    }),
+    LoadingModule
   ],
   declarations: [HomeComponent],
   exports: [HomeComponent]

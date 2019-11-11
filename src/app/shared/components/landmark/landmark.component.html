@@ -10,14 +10,14 @@
       />
       <div>
         <h6>
-          <a  [routerLink]="['/landmark/' + landmark?._id]">{{ landmark?.title }}</a>
+          <a  [routerLink]="['/landmark/' + landmark?.id]">{{ landmark?.attributes?.title }}</a>
         </h6>
         <ng-container
           *ngTemplateOutlet="isCollapsed ? shortText : fullText"
         ></ng-container>
         <ng-template #shortText>
           <p class="text-justify mb-0">
-            {{ landmark?.short_info | ellipsis: 120 }}
+            {{ landmark?.attributes?.short_info | ellipsis: 120 }}
             <span class="cursor-pointer" (click)="isCollapsed = !isCollapsed"
               >read more</span
             >
@@ -25,7 +25,7 @@
         </ng-template>
         <ng-template #fullText>
           <p class="text-justify mb-0">
-            {{ landmark?.short_info }}
+            {{ landmark?.attributes?.short_info }}
             <span class="cursor-pointer" (click)="isCollapsed = !isCollapsed"
               >show less</span
             >

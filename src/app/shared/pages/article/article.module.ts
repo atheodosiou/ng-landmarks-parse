@@ -4,6 +4,7 @@ import { ArticleComponent } from './article.component';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { EllipsisPipe } from '../../pipes/ellipsis.pipe';
+import { LoadingModule } from '../../components/loading/loading.module';
 
 @NgModule({
   imports: [
@@ -14,7 +15,8 @@ import { EllipsisPipe } from '../../pipes/ellipsis.pipe';
         path: "",
         component: ArticleComponent
       }
-    ])
+    ]),
+    LoadingModule
   ],
   exports:[ArticleComponent],
   declarations: [ArticleComponent]
