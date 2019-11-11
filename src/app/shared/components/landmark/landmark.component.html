@@ -9,6 +9,36 @@
       />
       <div>
         <h6>
+          <a  [routerLink]="['/landmark/' + landmark?._id]">{{ landmark?.title }}</a>
+        </h6>
+        <ng-container
+          *ngTemplateOutlet="isCollapsed ? shortText : fullText"
+        ></ng-container>
+        <ng-template #shortText>
+          <p class="text-justify mb-0">
+            {{ landmark?.short_info | ellipsis: 120 }}
+            <span class="cursor-pointer" (click)="isCollapsed = !isCollapsed"
+              >read more</span
+            >
+          </p>
+        </ng-template>
+        <ng-template #fullText>
+          <p class="text-justify mb-0">
+            {{ landmark?.short_info }}
+            <span class="cursor-pointer" (click)="isCollapsed = !isCollapsed"
+              >show less</span
+            >
+          </p>
+        </ng-template>
+        <!-- <a
+          class="btn btn-link float-right"
+         
+        >
+          Read more
+        </a> -->
+      </div>
+      <!-- <div>
+        <h6>
           <a [href]="landmark?.attributes?.url" target="_blank">{{ landmark?.attributes?.title }}</a>
         </h6>
         <ng-container
@@ -36,7 +66,7 @@
         >
           Read more
         </a>
-      </div>
+      </div> -->
     </div>
   </div>
 </div>

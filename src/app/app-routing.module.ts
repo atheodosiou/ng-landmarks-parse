@@ -13,6 +13,11 @@ const routes: Routes = [
       import("./shared/pages/login/login.module").then(l => l.LoginModule)
   },
   {
+    path: "landmark/:landmarkId",
+    loadChildren: () =>
+      import("./shared/pages/article/article.module").then(a=>a.ArticleModule)
+  },
+  {
     path: "dashboard",
     loadChildren: () =>
       import("./shared/pages/dashboard/dashboard.module").then(d=>d.DashboardModule)

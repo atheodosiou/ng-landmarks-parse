@@ -13,12 +13,17 @@ export class HomeComponent implements OnInit {
   landmarks:any[];
   ngOnInit() {
     console.log('Get landmarks...');
-  this.landmarkService.getLandmarks().then((landmarks)=>{
-    this.landmarks = landmarks;
-    console.log(landmarks)
-  }).catch(error=>{
-    console.log(error)
-  });
+    this.landmarkService.getData().subscribe(data=>{
+      this.landmarks=data.landmarks;
+      this.landmarkService.landmarks=data.landmarks;
+      console.log( this.landmarkService.landmarks)
+    });
+  // this.landmarkService.getLandmarks().then((landmarks)=>{
+  //   this.landmarks = landmarks;
+  //   console.log(landmarks)
+  // }).catch(error=>{
+  //   console.log(error)
+  // });
   // console.log('Get one landmark...');
   // this.landmarkService.getLandmark('aWN0HS8Hm0').then(landmark=>{console.log(JSON.stringify(landmark.attributes))}).catch(error=>{console.log(error)});
   }
