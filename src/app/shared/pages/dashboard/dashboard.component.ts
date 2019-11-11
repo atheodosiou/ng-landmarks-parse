@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { LandmarkService } from '../../services/landmark.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -7,9 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardComponent implements OnInit {
 
-  constructor() { }
-
+  constructor(private landmarkService:LandmarkService) { }
+  landmarks:any[];
   ngOnInit() {
+    this.landmarkService.getLandmarks().then(landmarks=>{
+      this.landmarks=landmarks;
+      console.log(landmarks);
+    }).catch(error=>console.error(error));
   }
 
+  onLandmarkSelect(landmark){
+    console.log(landmark);
+  }
 }
