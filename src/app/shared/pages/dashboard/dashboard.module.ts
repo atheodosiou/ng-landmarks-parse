@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { DashboardComponent } from './dashboard.component';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
+import { NgbDropdown, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { RouterModule, Routes } from '@angular/router';
         path: "",
         component: DashboardComponent
       }
-    ])
+    ]),
+    NgbDropdownModule
   ],
   exports:[DashboardComponent],
   declarations: [DashboardComponent]
