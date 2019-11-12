@@ -3,7 +3,7 @@
     <div class="d-flex align-items-center">
       <img
         class="mr-2"
-        src="assets/images/photo.svg"
+        [src]="landmark.attributes.photo?landmark.attributes.photo._url:'assets/images/photo.svg'"
         alt="not image"
         height="100"
         (click)="onClick(content)"

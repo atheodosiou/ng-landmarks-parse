@@ -5,3 +5,5 @@
 Bootstrap
 Ng-bootstrap
 Angular Google Maps
+Sharp -> Create thumbnails
+Uuid

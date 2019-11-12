@@ -3,6 +3,8 @@ import { LandmarkService } from '../../services/landmark.service';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { environment } from 'src/environments/environment';
 import * as Parse from 'parse';
+//Creates uuids
+import * as uuid from 'uuid';
 
 @Component({
   selector: 'app-dashboard',
@@ -17,7 +19,6 @@ export class DashboardComponent implements OnInit {
   fileName = '';
   photoToBeUploaded: File;
 
-
   constructor(private landmarkService: LandmarkService, private formBuilder: FormBuilder) {
     //Initiallize Parse
     Parse.initialize(environment.appId);
@@ -31,7 +32,6 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {
-
     this.landmarkService.getLandmarks().then(landmarks => {
       this.landmarks = landmarks;
       console.log(landmarks);
@@ -44,7 +44,6 @@ export class DashboardComponent implements OnInit {
   }
 
   handleFileInput(files: any) {
-    // console.log(files)
     this.photoToBeUploaded = files.item(0);
     console.log(files.item(0))
     if (this.isFileSizeAccepted(files.item(0).size)) {
@@ -63,9 +62,14 @@ export class DashboardComponent implements OnInit {
   onSubmit(value: any) {
     // console.log('Form data:',this.landmarkForm.value);
     if (this.photoToBeUploaded && this.selectedLandmark) {
-      let photo = new Parse.File(this.photoToBeUploaded.name, this.photoToBeUploaded);
+      
+      //set unique name for the file
+      //I am doing this in order not to check for valid file names ....
+      //Parse does not accept some special chars...
+
+      let photo = new Parse.File(uuid(), this.photoToBeUploaded);
       photo.save().then(uploadedPhoto => {
-        console.log('Photo uploaded successfuly!');
+        console.log('Photo uploaded successfuly!',uploadedPhoto);
         //Update selected landmark with the form's data and file
         this.updateSelectedLandMark(uploadedPhoto).then((parseObject:Parse.Object)=>{
           this.updateForm(parseObject);
@@ -124,4 +128,6 @@ export class DashboardComponent implements OnInit {
       return false;
     }
   }
+
+  
 }
