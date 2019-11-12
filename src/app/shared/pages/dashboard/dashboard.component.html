@@ -16,13 +16,10 @@
               <div ngbDropdown class="d-inline-block" class="mr-2">
                 <button type="button" class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>Select a Landmark</button>
                 <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                  <button *ngFor="let l of landmarks" ngbDropdownItem
+                  <button type="button" *ngFor="let l of landmarks" ngbDropdownItem
                     (click)="onLandmarkSelect(l)">{{l?.attributes?.title}}</button>
                 </div>
               </div>
-              <!-- <input type="text" class="form-control-plaintext" value="ID: SDF84SDF21"> -->
-              <label ></label>
-              <input type="text"class="form-control-plaintext" formControlName="id">
             </div>
           </div>
           <div class="form-group row">
@@ -52,9 +49,9 @@
                   <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
                 </div>
                 <div class="custom-file">
-                  <input type="file" class="custom-file-input" id="file" formControlName="file" aria-describedby="inputGroupFileAddon01"
+                  <input #fileInput type="file" class="custom-file-input" id="file" aria-describedby="inputGroupFileAddon01"
                   (change)="handleFileInput($event.target.files)">
-                  <label class="custom-file-label" for="file">Choose file</label>
+                  <label class="custom-file-label" for="file">{{fileInput.value?fileName:'Choose File'}}</label>
                 </div>
               </div>
           </div>
