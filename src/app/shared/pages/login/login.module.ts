@@ -16,7 +16,7 @@ import { ToasterModule } from '../../components/toaster/toaster.module';
         component: LoginComponent
       }
     ]),
-    ToasterModule
+    // ToasterModule
   ],
   declarations: [LoginComponent,],
   exports: [LoginComponent]

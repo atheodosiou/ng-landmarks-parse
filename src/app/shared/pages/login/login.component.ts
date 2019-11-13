@@ -27,7 +27,7 @@ export class LoginComponent {
         this.router.navigate(['/dashboard']);
       }
     ).catch(error => {
-      this.toastService.show(`Login failed!\nReason: ${error.message}`, { classname: 'bg-danger text-light', delay: 1200 });
+      this.toastService.show(`Login failed! Reason: ${error.message}`, { classname: 'bg-danger text-light', delay: 1500 });
     });
   }
 

@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { LandmarkService } from "../../services/landmark.service";
+import { ToastService } from '../../services/Toast.service';
 
 @Component({
   selector: "home",
@@ -7,25 +8,20 @@ import { LandmarkService } from "../../services/landmark.service";
   styleUrls: ["./home.component.scss"]
 })
 export class HomeComponent implements OnInit {
-  constructor(private landmarkService: LandmarkService) {}
+  constructor(private landmarkService: LandmarkService, private toastService:ToastService) {}
   
   landmarks:any[];
   selectedLandmark={attributes:{title:'Dubai',location:{latitude:25.2050773,longitude:55.2623135}}};
-  lat = 51.678418;
-  lng = 7.809007;
   zoom=13;
   
   ngOnInit() {
   this.landmarkService.getLandmarks().then((landmarks)=>{
     this.landmarks = landmarks;
     this.landmarkService.landmarks=landmarks;
-    console.log(landmarks)
+    console.warn('Landmarks loaded correctly!')
   }).catch(error=>{
-    console.log(error)
+    this.toastService.show(`Landmarks could not be loaded successfully! Reason: ${error.message}`,{ classname: 'bg-danger text-light', delay: 1500 });
   });
-  
-  // console.log('Get one landmark...');
-  // this.landmarkService.getLandmark('aWN0HS8Hm0').then(landmark=>{console.log(JSON.stringify(landmark.attributes))}).catch(error=>{console.log(error)});
   }
 
   // private sortBy(array: Landmark[]): Landmark[] {
@@ -36,6 +32,5 @@ export class HomeComponent implements OnInit {
 
   onLandmarkSelect(landmark:any){
     this.selectedLandmark=landmark;
-    console.log('Selected landmark:',landmark.attributes.location.latitude, landmark.attributes.location.longitude)
   }
 }
