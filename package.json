@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --watch",
-    "build": "ng build --aot --prod --base-href=https://atheodosiou.github.io/ng-landmarks-parse/ --output-path=docs",
+    "build": "ng build --aot --prod --base-href=https://atheodosiou.github.io/ng-landmarks-parse/ --output-path=docs --rebase-root-relative-css-urls=true",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
