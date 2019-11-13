@@ -9,18 +9,18 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 export class LandmarkComponent {
   isCollapsed: boolean = true;
   @Input() landmark: any;
-  @Output() onSelect:EventEmitter<any>=new EventEmitter<any>();
+  @Output() onSelect: EventEmitter<any> = new EventEmitter<any>();
 
-  constructor(private modalService: NgbModal) {}
-  onClick(content){
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', centered:true, size: 'xl'}).result.then((result) => {
+  constructor(private modalService: NgbModal) { }
+  onClick(content) {
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', centered: true, size: 'lg' }).result.then((result) => {
       console.log('Modal closed!')
-     }, (reason) => {
-       console.log('Modal cannot close correctly!')
-     });
+    }, (reason) => {
+      console.log('Modal cannot close correctly!')
+    });
   }
 
-  onLandmarkClick(){
+  onLandmarkClick() {
     this.onSelect.emit(this.landmark);
   }
 }

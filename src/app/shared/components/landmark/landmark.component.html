@@ -1,34 +1,23 @@
 <div class="card mb-3" (click)="onLandmarkClick()">
   <div class="card-body">
     <div class="d-flex align-items-center">
-      <img
-        class="mr-2"
-        [src]="landmark.attributes.photo?landmark.attributes.photo._url:'assets/images/photo.svg'"
-        alt="not image"
-        height="100"
-        (click)="onClick(content)"
-      />
+      <img class="mr-2" [src]="landmark.attributes.photo?landmark.attributes.photo._url:'assets/images/photo.svg'"
+        alt="not image" height="100" (click)="onClick(content)" />
       <div>
         <h6>
-          <a  [routerLink]="['/landmark/' + landmark?.id]">{{ landmark?.attributes?.title }}</a>
+          <a [routerLink]="['/landmark/' + landmark?.id]">{{ landmark?.attributes?.title }}</a>
         </h6>
-        <ng-container
-          *ngTemplateOutlet="isCollapsed ? shortText : fullText"
-        ></ng-container>
+        <ng-container *ngTemplateOutlet="isCollapsed ? shortText : fullText"></ng-container>
         <ng-template #shortText>
           <p class="text-justify mb-0">
             {{ landmark?.attributes?.short_info | ellipsis: 120 }}
-            <span class="cursor-pointer" (click)="isCollapsed = !isCollapsed"
-              >read more</span
-            >
+            <span class="cursor-pointer" (click)="isCollapsed = !isCollapsed">read more</span>
           </p>
         </ng-template>
         <ng-template #fullText>
           <p class="text-justify mb-0">
             {{ landmark?.attributes?.short_info }}
-            <span class="cursor-pointer" (click)="isCollapsed = !isCollapsed"
-              >show less</span
-            >
+            <span class="cursor-pointer" (click)="isCollapsed = !isCollapsed">show less</span>
           </p>
         </ng-template>
         <!-- <a
@@ -75,17 +64,14 @@
 
 <!-- Image Modal -->
 <ng-template #content let-modal>
-    <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title">{{landmark?.attributes?.title}}</h4>
-      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body">
-        <img
-        [src]="landmark.attributes.photo?landmark.attributes.photo._url:'assets/images/photo.svg'"
-        alt="not image"
-        class="image-responsive w-100"
-      />
-    </div>
-  </ng-template>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{landmark?.attributes?.title}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body d-flex justify-content-center">
+    <img [src]="landmark.attributes.photo?landmark.attributes.photo._url:'assets/images/photo.svg'" alt="not image"
+      class="img-fluid" />
+  </div>
+</ng-template>

@@ -9,68 +9,68 @@
   </div>
 
   <ng-template #form>
-      <form [formGroup]="landmarkForm" class="form" (ngSubmit)="onSubmit(landmarkForm.value)">
-          <div class="form-group row">
-            <label for="landmark" class="col-sm-2 col-form-label">Landmark</label>
-            <div class="col-sm-10 d-flex" id="landmark">
-              <div ngbDropdown class="d-inline-block" class="mr-2">
-                <button type="button" class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>Select a Landmark</button>
-                <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-                  <button type="button" *ngFor="let l of landmarks" ngbDropdownItem
-                    (click)="onLandmarkSelect(l)">{{l?.attributes?.title}}</button>
-                </div>
-              </div>
-            </div>
+    <form [formGroup]="landmarkForm" class="form" (ngSubmit)="onSubmit(landmarkForm.value)">
+      <div class="form-group row">
+        <label for="landmark" class="col-sm-2 col-form-label">Landmark</label>
+        <div class="col-sm-10">
+          <select name="landmark" id="landmark" class="form-control" (change)="onLandmarkSelect($event.target.value)">
+            <option selected disabled>Choose a Landmark</option>
+            <option *ngFor="let l of landmarks" [value]="l.id">
+              {{l?.attributes?.title}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="title" class="col-sm-2 col-form-label">Title</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="title" formControlName="title" value="Landmark's Title">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="shortInfo" class="col-sm-2 col-form-label">Short Info</label>
+        <div class="col-sm-10">
+          <!-- <input type="text" class="form-control" id="info" > -->
+          <textarea rows="5" type="text" class="form-control" id="shortInfo" formControlName="shortInfo"
+            placeholder="Landmark's Short Info"></textarea>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="description" class="col-sm-2 col-form-label">Description</label>
+        <div class="col-sm-10">
+          <textarea rows="15" type="text" class="form-control" id="description" formControlName="description"
+            placeholder="Landmark's Description"></textarea>
+        </div>
+      </div>
+      <!-- Photo upload -->
+      <div class="form-group row">
+        <label for="photo" class="col-sm-2 col-form-label">Photograph</label>
+        <div class="col-sm-10 input-group mb-3" id="photo">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
           </div>
-          <div class="form-group row">
-            <label for="title" class="col-sm-2 col-form-label">Title</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="title" formControlName="title" value="Landmark's Title">
-            </div>
+          <div class="custom-file">
+            <input #fileInput type="file" class="custom-file-input" id="file" aria-describedby="inputGroupFileAddon01"
+              (change)="handleFileInput($event.target.files)">
+            <label class="custom-file-label" for="file">{{fileInput.value? fileName:'Choose File'}}</label>
           </div>
-          <div class="form-group row">
-            <label for="shortInfo" class="col-sm-2 col-form-label">Short Info</label>
-            <div class="col-sm-10">
-              <!-- <input type="text" class="form-control" id="info" > -->
-              <textarea rows="5" type="text" class="form-control" id="shortInfo" formControlName="shortInfo" placeholder="Landmark's Short Info"></textarea>
-            </div>
-          </div>
-          <div class="form-group row">
-            <label for="description" class="col-sm-2 col-form-label">Description</label>
-            <div class="col-sm-10">
-              <textarea rows="15" type="text" class="form-control" id="description" formControlName="description" placeholder="Landmark's Description"></textarea>
-            </div>
-          </div>
-         <!-- Photo upload -->
-         <div class="form-group row">
-            <label for="photo" class="col-sm-2 col-form-label">Photograph</label>
-            <div class="col-sm-10 input-group mb-3" id="photo">
-                <div class="input-group-prepend">
-                  <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
-                </div>
-                <div class="custom-file">
-                  <input #fileInput type="file" class="custom-file-input" id="file" aria-describedby="inputGroupFileAddon01"
-                  (change)="handleFileInput($event.target.files)">
-                  <label class="custom-file-label" for="file">{{fileInput.value?fileName:'Choose File'}}</label>
-                </div>
-              </div>
-          </div>
-         <button [disabled]="!selectedLandmark" type="submit" class=" btn btn-block btn-success">Update Landmark</button>
-        </form>
+        </div>
+      </div>
+      <button [disabled]="!selectedLandmark" type="submit" class=" btn btn-block btn-success">Update Landmark</button>
+    </form>
   </ng-template>
 
   <!-- Update Modal -->
   <ng-template #modal let-modal>
     <div class="modal-body">
-        <div class="d-flex align-items-center justify-content-between mt-2">
-            <h4 class="text-primary">Updating selected landmark. Please wait!</h4>
-              <div class="spinner-border text-success" role="status">
-                  <span class="sr-only">Loading...</span>
-                </div>
-          </div>
+      <div class="d-flex align-items-center justify-content-between mt-2">
+        <h4 class="text-primary">Updating selected landmark. Please wait!</h4>
+        <div class="spinner-border text-success" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
     </div>
   </ng-template>
 
   <ng-template #loading>
     <loading></loading>
-</ng-template>
+  </ng-template>

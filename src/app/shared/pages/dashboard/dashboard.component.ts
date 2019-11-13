@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 import { environment } from 'src/environments/environment';
 import * as Parse from 'parse';
 //Creates uuids
-import * as uuid from 'uuid';
+import * as uuid from 'uuid/v4';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -40,8 +40,8 @@ export class DashboardComponent implements OnInit {
     }).catch(error => console.error(error));
   }
 
-  onLandmarkSelect(landmark: Parse.Object) {
-    this.selectedLandmark = landmark;
+  onLandmarkSelect(landmarkID: string) {
+    this.selectedLandmark = this.landmarks.find((l: Parse.Object) => l.id === landmarkID);
     this.landmarkForm.setValue({ title: this.selectedLandmark.attributes.title, shortInfo: this.selectedLandmark.attributes.short_info, description: this.selectedLandmark.attributes.description });
   }
 
@@ -83,9 +83,9 @@ export class DashboardComponent implements OnInit {
           this.modalService.dismissAll();
           console.error(error)
         });
-      }).catch(error => { 
+      }).catch(error => {
         this.modalService.dismissAll();
-        console.error(error) 
+        console.error(error)
       })
     } else {
       //Update selected landmark with the form's data only
