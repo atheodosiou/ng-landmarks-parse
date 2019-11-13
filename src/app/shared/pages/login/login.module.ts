@@ -5,6 +5,7 @@ import { RouterModule } from "@angular/router";
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ToastsContainer } from '../../components/toaster/toaster-container.component';
 import { NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
+import { ToasterModule } from '../../components/toaster/toaster.module';
 
 @NgModule({
   imports: [
@@ -17,9 +18,9 @@ import { NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
         component: LoginComponent
       }
     ]),
-    NgbToastModule
+    ToasterModule
   ],
-  declarations: [LoginComponent,ToastsContainer],
+  declarations: [LoginComponent,],
   exports: [LoginComponent]
 })
 export class LoginModule {}

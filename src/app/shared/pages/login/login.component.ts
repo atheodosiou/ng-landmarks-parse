@@ -23,7 +23,7 @@ export class LoginComponent {
   onSubmit(value: any) {
     this.authService.login(value.username, value.password).then(
       (user: Parse.User) => {
-        this.toastService.show(`Welcome ${value.username}!`, { classname: 'bg-success text-light', delay: 1000 });
+        this.toastService.show(`Welcome ${user.getUsername()}!`, { classname: 'bg-success text-light', delay: 1000 });
         this.router.navigate(['/dashboard']);
       }
     ).catch(error => {

@@ -16,13 +16,6 @@ export class HomeComponent implements OnInit {
   zoom=13;
   
   ngOnInit() {
-    console.log(this.selectedLandmark)
-    console.log('Get landmarks...');
-    // this.landmarkService.getData().subscribe(data=>{
-    //   this.landmarks=data.landmarks;
-    //   this.landmarkService.landmarks=data.landmarks;
-    //   console.log( this.landmarkService.landmarks)
-    // });
   this.landmarkService.getLandmarks().then((landmarks)=>{
     this.landmarks = landmarks;
     this.landmarkService.landmarks=landmarks;
