@@ -5,7 +5,8 @@
 
 export const environment = {
   production: false,
-  serverURL:'http://localhost:4242/parse',
+  // serverURL:'http://localhost:4242/parse',
+  serverURL:'http://167.71.56.69/parse',
   appId:'instashopInterviewAppId',
   googleMapsApiKey:'AIzaSyBmi_OGF0-_U5oZ77rug2wbVsN8cA_7ge4'
 };

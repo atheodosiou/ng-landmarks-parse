@@ -1,6 +1,7 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 import { AuthGaurd } from './shared/gaurds/AuthGaurd.service';
+import { LoginGuard } from './shared/gaurds/loginGuard.service';
 
 const routes: Routes = [
   {
@@ -11,7 +12,8 @@ const routes: Routes = [
   {
     path: "login",
     loadChildren: () =>
-      import("./shared/pages/login/login.module").then(l => l.LoginModule)
+      import("./shared/pages/login/login.module").then(l => l.LoginModule),
+      canActivate:[LoginGuard]
   },
   {
     path: "landmark/:landmarkId",
