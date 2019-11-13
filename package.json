@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --watch",
-    "build": "ng build --base-href=/ng-landmarks-parse --output-path=docs",
+    "build": "ng build --base-href=/ng-landmarks-parse/ --output-path=docs",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
