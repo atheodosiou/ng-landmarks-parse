@@ -24,7 +24,7 @@ export class LoginComponent {
     this.authService.login(value.username, value.password).then(
       (user: Parse.User) => {
         this.toastService.show(`Welcome ${user.getUsername()}!`, { classname: 'bg-success text-light', delay: 1000 });
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['/home']);
       }
     ).catch(error => {
       this.toastService.show(`Login failed! Reason: ${error.message}`, { classname: 'bg-danger text-light', delay: 1500 });
