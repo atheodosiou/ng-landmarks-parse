@@ -64,7 +64,7 @@
 /******/
 /******/ 	// script path function
 /******/ 	function jsonpScriptSrc(chunkId) {
-/******/ 		return __webpack_require__.p + "" + ({"common":"common","shared-pages-article-article-module":"shared-pages-article-article-module","shared-pages-dashboard-dashboard-module":"shared-pages-dashboard-dashboard-module","shared-pages-home-home-module":"shared-pages-home-home-module","shared-pages-login-login-module":"shared-pages-login-login-module","shared-pages-not-found-not-found-module":"shared-pages-not-found-not-found-module"}[chunkId]||chunkId) +    "-es5.js"
+/******/ 		return __webpack_require__.p + "" + ({"default~shared-pages-dashboard-dashboard-module-ngfactory~shared-pages-home-home-module-ngfactory":"default~shared-pages-dashboard-dashboard-module-ngfactory~shared-pages-home-home-module-ngfactory","shared-pages-dashboard-dashboard-module-ngfactory":"shared-pages-dashboard-dashboard-module-ngfactory","shared-pages-home-home-module-ngfactory":"shared-pages-home-home-module-ngfactory","shared-pages-article-article-module-ngfactory":"shared-pages-article-article-module-ngfactory","shared-pages-login-login-module-ngfactory":"shared-pages-login-login-module-ngfactory","shared-pages-not-found-not-found-module-ngfactory":"shared-pages-not-found-not-found-module-ngfactory"}[chunkId]||chunkId) +    "-es5.js"
 /******/ 	}
 /******/
 /******/ 	// The require function
