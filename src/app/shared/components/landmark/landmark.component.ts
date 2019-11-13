@@ -1,5 +1,4 @@
 import { Component, Input, Output, EventEmitter } from "@angular/core";
-import { Landmark } from "../../models/landmark.model";
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({

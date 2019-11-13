@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { LandmarkService } from '../../services/landmark.service';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { environment } from 'src/environments/environment';
 import * as Parse from 'parse';
 //Creates uuids
 import * as uuid from 'uuid';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-dashboard',
@@ -19,7 +20,8 @@ export class DashboardComponent implements OnInit {
   fileName = '';
   photoToBeUploaded: File;
 
-  constructor(private landmarkService: LandmarkService, private formBuilder: FormBuilder) {
+  @ViewChild('modal', { static: false }) modal: ElementRef
+  constructor(private landmarkService: LandmarkService, private formBuilder: FormBuilder, private modalService: NgbModal) {
     //Initiallize Parse
     Parse.initialize(environment.appId);
     (Parse as any).serverURL = environment.serverURL;
@@ -60,44 +62,54 @@ export class DashboardComponent implements OnInit {
   }
 
   onSubmit(value: any) {
+    this.showModal(this.modal);
     // console.log('Form data:',this.landmarkForm.value);
     if (this.photoToBeUploaded && this.selectedLandmark) {
-      
       //set unique name for the file
       //I am doing this in order not to check for valid file names ....
       //Parse does not accept some special chars...
 
       let photo = new Parse.File(uuid(), this.photoToBeUploaded);
       photo.save().then(uploadedPhoto => {
-        console.log('Photo uploaded successfuly!',uploadedPhoto);
+
+        console.log('Photo uploaded successfuly!', uploadedPhoto);
+        //Toast goes here
+
         //Update selected landmark with the form's data and file
-        this.updateSelectedLandMark(uploadedPhoto).then((parseObject:Parse.Object)=>{
+        this.updateSelectedLandMark(uploadedPhoto).then((parseObject: Parse.Object) => {
           this.updateForm(parseObject);
-        }).catch(error=>{
+          this.modalService.dismissAll();
+        }).catch(error => {
+          this.modalService.dismissAll();
           console.error(error)
         });
-      }).catch(error => { console.error(error) })
+      }).catch(error => { 
+        this.modalService.dismissAll();
+        console.error(error) 
+      })
     } else {
       //Update selected landmark with the form's data only
-      this.updateSelectedLandMark().then((parseObject:Parse.Object)=>{
+      this.updateSelectedLandMark().then((parseObject: Parse.Object) => {
         this.updateForm(parseObject);
-      }).catch(error=>{
+        this.modalService.dismissAll();
+      }).catch(error => {
         console.error(error);
+        this.modalService.dismissAll();
       });
     }
   }
 
-  private async updateSelectedLandMark(newFile?: Parse.File):Promise<Parse.Object | null> {
-    return new Promise<Parse.Object | null>((resolve,reject)=>{
-      let object=null;
+  private async updateSelectedLandMark(newFile?: Parse.File): Promise<Parse.Object | null> {
+    return new Promise<Parse.Object | null>((resolve, reject) => {
+      let object = null;
       this.selectedLandmark.set('title', this.landmarkForm.value.title);
       this.selectedLandmark.set('short_info', this.landmarkForm.value.shortInfo);
       this.selectedLandmark.set('description', this.landmarkForm.value.description);
-  
+
       if (newFile) {
         this.selectedLandmark.set('photo', newFile)
       }
-  
+
       this.selectedLandmark.save().then(updatedObject => {
         console.log('Landmard updated!\n', updatedObject);
         resolve(updatedObject);
@@ -108,12 +120,12 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  private updateForm(object:Parse.Object){
+  private updateForm(object: Parse.Object) {
     console.log('Updating form...')
-    this.selectedLandmark=object;
+    this.selectedLandmark = object;
     this.landmarkForm.setValue({ title: object.attributes.title, shortInfo: object.attributes.short_info, description: object.attributes.description });
-    if(object.attributes.photo){
-      this.fileName='Choose a new photo to replace the existing';
+    if (object.attributes.photo) {
+      this.fileName = 'Choose a new photo to replace the existing';
     }
     console.log('Form updated!')
   }
@@ -129,5 +141,12 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  
+  private showModal(content) {
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', centered: true, size: 'lg' }).result.then((result) => {
+      console.log('Modal closed!')
+    }, (reason) => {
+      console.log('Modal cannot close correctly!')
+    });
+  }
+
 }
