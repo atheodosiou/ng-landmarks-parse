@@ -1,7 +1,8 @@
 <div class="card mb-3" (click)="onLandmarkClick()">
   <div class="card-body">
     <div class="d-flex align-items-center">
-      <img class="mr-2" [src]="landmark.attributes.photo?landmark.attributes.photo._url:'assets/images/photo.svg'"
+      <img class="mr-2"
+        [src]="landmark.attributes.photo_thumb?landmark.attributes.photo_thumb._url:'assets/images/photo.svg'"
         alt="not image" height="100" (click)="onClick(content)" />
       <div>
         <h6>
