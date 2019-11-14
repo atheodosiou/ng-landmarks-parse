@@ -4,7 +4,6 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "proxy": "ng serve --proxy-config src/proxy.conf.json",
     "build": "ng build --base-href=/ng-landmarks-parse/ --output-path=docs",
     "test": "ng test",
     "lint": "ng lint",
