@@ -2,69 +2,145 @@
   <div class="row justify-content-center">
     <div class="col-sm-12 col-md-10 col-lg-10">
       <h2 class="text-success">Administration Panel</h2>
-      <h4 class="text-secondary">Here you can edit a landmark and/or upload a photo for it</h4>
-      <hr>
-      <ng-container *ngTemplateOutlet="landmarks?form:loading"></ng-container>
+      <h4 class="text-secondary">
+        Here you can edit a landmark and/or upload a photo for it
+      </h4>
+      <hr />
+      <ng-container
+        *ngTemplateOutlet="landmarks ? form : loading"
+      ></ng-container>
     </div>
   </div>
 
   <ng-template #form>
-    <form [formGroup]="landmarkForm" class="form" (ngSubmit)="onSubmit(landmarkForm.value)">
+    <form
+      [formGroup]="landmarkForm"
+      class="form"
+      (ngSubmit)="onSubmit(landmarkForm.value)"
+    >
       <div class="form-group row">
         <label for="landmark" class="col-sm-2 col-form-label">Landmark</label>
         <div class="col-sm-10">
-          <select name="landmark" id="landmark" class="form-control" (change)="onLandmarkSelect($event.target.value)">
+          <select
+            name="landmark"
+            id="landmark"
+            class="form-control"
+            (change)="onLandmarkSelect($event.target.value)"
+          >
             <option selected disabled>Choose a Landmark</option>
             <option *ngFor="let l of landmarks" [value]="l.id">
-              {{l?.attributes?.title}}</option>
+              {{ l?.attributes?.title }}</option
+            >
           </select>
         </div>
       </div>
+
       <div class="form-group row">
         <label for="title" class="col-sm-2 col-form-label">Title</label>
         <div class="col-sm-10">
-          <input type="text" class="form-control" id="title" formControlName="title" value="Landmark's Title">
+          <input
+            type="text"
+            class="form-control"
+            id="title"
+            formControlName="title"
+            value="Landmark's Title"
+          />
         </div>
       </div>
+
       <div class="form-group row">
-        <label for="shortInfo" class="col-sm-2 col-form-label">Short Info</label>
+        <label for="shortInfo" class="col-sm-2 col-form-label"
+          >Short Info</label
+        >
         <div class="col-sm-10">
           <!-- <input type="text" class="form-control" id="info" > -->
-          <textarea rows="5" type="text" class="form-control" id="shortInfo" formControlName="shortInfo"
-            placeholder="Landmark's Short Info"></textarea>
+          <textarea
+            rows="5"
+            type="text"
+            class="form-control"
+            id="shortInfo"
+            formControlName="shortInfo"
+            placeholder="Landmark's Short Info"
+          ></textarea>
         </div>
       </div>
+
       <div class="form-group row">
-        <label for="description" class="col-sm-2 col-form-label">Description</label>
+        <label for="description" class="col-sm-2 col-form-label"
+          >Description</label
+        >
         <div class="col-sm-10">
-          <textarea rows="15" type="text" class="form-control" id="description" formControlName="description"
-            placeholder="Landmark's Description"></textarea>
+          <textarea
+            rows="15"
+            type="text"
+            class="form-control"
+            id="description"
+            formControlName="description"
+            placeholder="Landmark's Description"
+          ></textarea>
         </div>
       </div>
+
       <!-- Photo upload -->
       <div class="form-group row">
         <label for="photo" class="col-sm-2 col-form-label">Photograph</label>
         <div class="col-sm-10 input-group mb-3" id="photo">
           <div class="input-group-prepend">
-            <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+            <span class="input-group-text" id="inputGroupFileAddon01"
+              >Upload</span
+            >
           </div>
           <div class="custom-file">
-            <input #fileInput type="file" class="custom-file-input" id="file" aria-describedby="inputGroupFileAddon01"
-              (change)="handleFileInput($event.target.files)">
-            <label class="custom-file-label" for="file">{{fileInput.value? fileName:'Choose File'}}</label>
-          </div>
-        </div>
-        <div class="col-12">
-          <div class="d-flex justify-content-between align-items-center">
-            <h6>Uplodaed</h6>
+            <input
+              #fileInput
+              type="file"
+              class="custom-file-input"
+              id="file"
+              aria-describedby="inputGroupFileAddon01"
+              (change)="handleFileInput($event.target.files)"
+            />
+            <label class="custom-file-label" for="file">{{
+              fileInput.value ? fileName : "Choose File"
+            }}</label>
           </div>
         </div>
       </div>
-      <button [disabled]="!selectedLandmark" type="submit" class=" btn btn-block btn-success">Update Landmark</button>
+
+      <div
+        class="form-group row"
+        *ngIf="selectedLandmark && selectedLandmarkPhoto"
+      >
+        <label for="uploadedFile" class="col-sm-2 col-form-label"
+          >Uploaded</label
+        >
+        <div class="col-sm-10">
+          <a
+            placement="top"
+            ngbTooltip="Click to see the full photo"
+            [href]="selectedLandmarkPhoto.url()"
+            target="_blank"
+            class="card-link text-dark"
+          >
+            {{ selectedLandmarkPhoto.name() }}
+          </a>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-end align-items-center">
+        <button class="btn btn-danger mr-3" *ngIf="selectedLandmark">
+          Delete landmark
+        </button>
+
+        <button
+          [disabled]="!selectedLandmark"
+          type="submit"
+          class=" btn btn-success"
+        >
+          Update Landmark
+        </button>
+      </div>
     </form>
   </ng-template>
-
-  <pre>{{selectedLandmark.photo | json}}</pre>
 
   <!-- Update Modal -->
   <ng-template #modal let-modal>
@@ -81,3 +157,4 @@
   <ng-template #loading>
     <loading></loading>
   </ng-template>
+</div>

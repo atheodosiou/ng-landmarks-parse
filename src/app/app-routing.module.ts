@@ -13,18 +13,18 @@ const routes: Routes = [
     path: "login",
     loadChildren: () =>
       import("./shared/pages/login/login.module").then(l => l.LoginModule),
-      canActivate:[LoginGuard]
+    canActivate: [LoginGuard]
   },
   {
     path: "landmark/:landmarkId",
     loadChildren: () =>
-      import("./shared/pages/article/article.module").then(a=>a.ArticleModule)
+      import("./shared/pages/article/article.module").then(a => a.ArticleModule)
   },
   {
     path: "dashboard",
     loadChildren: () =>
-      import("./shared/pages/dashboard/dashboard.module").then(d=>d.DashboardModule),
-      canActivate:[AuthGaurd]
+      import("./shared/pages/dashboard/dashboard.module").then(d => d.DashboardModule),
+    canActivate: [AuthGaurd]
   },
   {
     path: "404",
@@ -47,6 +47,6 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
-  providers:[AuthGaurd]
+  providers: [AuthGaurd]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

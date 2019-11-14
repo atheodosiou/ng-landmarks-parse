@@ -3,7 +3,7 @@ import { LandmarkService } from '../../services/landmark.service';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { environment } from 'src/environments/environment';
 import * as Parse from 'parse';
-//Creates uuids
+// Creates uuids
 import * as uuid from 'uuid/v4';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -16,13 +16,14 @@ export class DashboardComponent implements OnInit {
 
   landmarkForm: FormGroup;
   selectedLandmark: Parse.Object;
+  selectedLandmarkPhoto: Parse.File;
   landmarks: Parse.Object[];
   fileName = '';
   photoToBeUploaded: File;
 
   @ViewChild('modal', { static: false }) modal: ElementRef
   constructor(private landmarkService: LandmarkService, private formBuilder: FormBuilder, private modalService: NgbModal) {
-    //Initiallize Parse
+    // Initiallize Parse
     // Parse.initialize(environment.appId,environment.javaScriptKey);
     // (Parse as any).serverURL = environment.serverURL;
 
@@ -42,7 +43,14 @@ export class DashboardComponent implements OnInit {
 
   onLandmarkSelect(landmarkID: string) {
     this.selectedLandmark = this.landmarks.find((l: Parse.Object) => l.id === landmarkID);
-    this.landmarkForm.setValue({ title: this.selectedLandmark.attributes.title, shortInfo: this.selectedLandmark.attributes.short_info, description: this.selectedLandmark.attributes.description });
+    this.landmarkForm.setValue({
+      title: this.selectedLandmark.attributes.title,
+      shortInfo: this.selectedLandmark.attributes.short_info,
+      description: this.selectedLandmark.attributes.description
+    });
+
+    this.selectedLandmarkPhoto = this.selectedLandmark.get("photo");
+
   }
 
   handleFileInput(files: any) {
@@ -65,17 +73,17 @@ export class DashboardComponent implements OnInit {
     this.showModal(this.modal);
     // console.log('Form data:',this.landmarkForm.value);
     if (this.photoToBeUploaded && this.selectedLandmark) {
-      //set unique name for the file
-      //I am doing this in order not to check for valid file names ....
-      //Parse does not accept some special chars...
+      // set unique name for the file
+      // I am doing this in order not to check for valid file names ....
+      // Parse does not accept some special chars...
 
-      let photo = new Parse.File(uuid(), this.photoToBeUploaded);
+      const photo = new Parse.File(uuid(), this.photoToBeUploaded);
       photo.save().then(uploadedPhoto => {
 
         console.log('Photo uploaded successfuly!', uploadedPhoto);
-        //Toast goes here
+        // Toast goes here
 
-        //Update selected landmark with the form's data and file
+        // Update selected landmark with the form's data and file
         this.updateSelectedLandMark(uploadedPhoto).then((parseObject: Parse.Object) => {
           this.updateForm(parseObject);
           this.modalService.dismissAll();
@@ -88,7 +96,7 @@ export class DashboardComponent implements OnInit {
         console.error(error)
       })
     } else {
-      //Update selected landmark with the form's data only
+      // Update selected landmark with the form's data only
       this.updateSelectedLandMark().then((parseObject: Parse.Object) => {
         this.updateForm(parseObject);
         this.modalService.dismissAll();
@@ -101,7 +109,7 @@ export class DashboardComponent implements OnInit {
 
   private async updateSelectedLandMark(newFile?: Parse.File): Promise<Parse.Object | null> {
     return new Promise<Parse.Object | null>((resolve, reject) => {
-      let object = null;
+      const object = null;
       this.selectedLandmark.set('title', this.landmarkForm.value.title);
       this.selectedLandmark.set('short_info', this.landmarkForm.value.shortInfo);
       this.selectedLandmark.set('description', this.landmarkForm.value.description);
@@ -147,6 +155,11 @@ export class DashboardComponent implements OnInit {
     }, (reason) => {
       console.log('Modal cannot close correctly!')
     });
+  }
+
+  onRemovePhoto(file: Parse.File) {
+    console.log(file);
+
   }
 
 }
