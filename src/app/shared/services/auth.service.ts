@@ -11,8 +11,8 @@ import { ToastService } from './Toast.service';
 export class AuthService {
 
   constructor(private router:Router, private toasterService:ToastService) { 
-    Parse.initialize(environment.appId);
-    (Parse as any).serverURL=environment.serverURL;
+    // Parse.initialize(environment.appId,environment.javaScriptKey);
+    // (Parse as any).serverURL=environment.serverURL;
   }
 
   private sessionToken:string;

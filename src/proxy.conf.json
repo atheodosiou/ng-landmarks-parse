@@ -1,0 +1,10 @@
+{
+  "/": {
+    "target": "http://167.71.56.69",
+    "secure": false,
+    "pathRewrite": {
+      "^/parse": ""
+    },
+    "changeOrigin": true
+  }
+}

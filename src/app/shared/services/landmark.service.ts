@@ -9,8 +9,8 @@ import { Observable } from 'rxjs';
 })
 export class LandmarkService {
   constructor(private http: HttpClient) {
-    Parse.initialize(environment.appId);
-    (Parse as any).serverURL = environment.serverURL;
+    // Parse.initialize(environment.appId,environment.javaScriptKey);
+    // (Parse as any).serverURL = environment.serverURL;
   }
 
   private _landmarks: any[];

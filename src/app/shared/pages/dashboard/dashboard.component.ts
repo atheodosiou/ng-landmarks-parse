@@ -23,8 +23,8 @@ export class DashboardComponent implements OnInit {
   @ViewChild('modal', { static: false }) modal: ElementRef
   constructor(private landmarkService: LandmarkService, private formBuilder: FormBuilder, private modalService: NgbModal) {
     //Initiallize Parse
-    Parse.initialize(environment.appId);
-    (Parse as any).serverURL = environment.serverURL;
+    // Parse.initialize(environment.appId,environment.javaScriptKey);
+    // (Parse as any).serverURL = environment.serverURL;
 
     this.landmarkForm = this.formBuilder.group({
       title: new FormControl('Landmark\'s Title', Validators.required),
