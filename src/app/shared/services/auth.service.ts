@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import * as Parse from 'parse';
-import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
 import { ToastService } from './Toast.service';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/store/models/appState.model';
-import { AuthLoggedInAction, AuthLoggedOutAction } from 'src/store/actions/auth.actions';
+import { AuthLoggedOutAction } from 'src/store/actions/auth.actions';
 
 @Injectable({
   providedIn: 'root'
@@ -35,15 +33,16 @@ export class AuthService {
     return this._isLogedIn;
   }
 
+  /**
+   * Used to login a use with the provided credentials
+   * @param username Users credentials
+   * @param password Users credentials
+   */
   login(username: string, password: string): Promise<Parse.User> {
-    console.log('login')
     return new Promise<Parse.User>((resolve, reject) => {
       Parse.User.logIn(username, password).then((user: Parse.User) => {
         this.sessionToken = user.attributes.sessionToken;
-        // if(!window.localStorage.getItem('sessionToken')){
         window.localStorage.setItem('sessionToken', this.sessionToken);
-        // }
-        this.user = user;
         this._isLogedIn = true;
         resolve(user);
       }).catch(error => {
@@ -56,24 +55,18 @@ export class AuthService {
     if (window.localStorage.getItem('sessionToken')) {
       window.localStorage.removeItem('sessionToken');
       this._isLogedIn = false;
+      this.store.dispatch(new AuthLoggedOutAction())
+      this.toasterService.show('Loged out successfully!', { classname: 'bg-danger text-light', delay: 1500 });
       this.router.navigate(['/home']);
-    }
-    this.toasterService.show('Loged out successfully!', { classname: 'bg-danger text-light', delay: 1500 });
-    this.store.dispatch(new AuthLoggedOutAction())
-    // if(Parse.User.current()){
-    //   Parse.User.logOut().then(() => {
-    //     var currentUser = Parse.User.current();  // this will now be null
-    //     console.log(currentUser);
-    //   });
 
-    // Parse.User.logOut().then(user=>{
-    //   console.log('User logout was successful!');
-    //   this.user=null;
-    //   this.isLogedIn=false;
-    //   this.sessionToken=null;
-    // }).catch(error=>{
-    //   console.error(error);
-    // })
-    // }
+      // Returns Error => Database adapter error!!!
+
+
+      // Parse.User.logOut().then((data) => {
+      //   console.log(data);
+      // }).catch(error => {
+      //   this.toasterService.show(`Logout failed! Reason: ${error.message}`, { classname: 'bg-danger text-light', delay: 2500 });
+      // });
+    }
   }
 }

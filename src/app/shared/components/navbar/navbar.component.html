@@ -19,11 +19,6 @@
 
   <div class="collapse navbar-collapse" id="navbar-collapse">
     <ul class="navbar-nav ml-auto">
-      <li class="nav-item">
-        <p class="mb-0 nav-link">
-          {{ (auth | async)?.isLogged }}
-        </p>
-      </li>
       <ng-container
         *ngTemplateOutlet="(auth | async)?.isLogged ? loggedIn : loggedOut"
       ></ng-container>
