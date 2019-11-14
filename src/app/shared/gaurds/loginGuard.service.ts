@@ -6,7 +6,6 @@ import { AuthService } from '../services/auth.service';
   providedIn: 'root'
 })
 export class LoginGuard implements CanActivate {
-
   constructor(private authService: AuthService, private router: Router) { }
 
   canActivate(route: import("@angular/router").ActivatedRouteSnapshot, state: import("@angular/router").RouterStateSnapshot): boolean {

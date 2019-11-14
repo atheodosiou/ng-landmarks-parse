@@ -20,30 +20,67 @@
   <div class="collapse navbar-collapse" id="navbar-collapse">
     <ul class="navbar-nav ml-auto">
       <li class="nav-item">
+        <p class="mb-0 nav-link">
+          {{ (auth | async)?.isLogged }}
+        </p>
+      </li>
+      <ng-container
+        *ngTemplateOutlet="(auth | async)?.isLogged ? loggedIn : loggedOut"
+      ></ng-container>
+      <ng-template #loggedIn>
+        <li class="nav-item">
           <a
-            *ngIf="logedIn"
             [routerLink]="['/dashboard']"
             class="nav-link"
             [routerLinkActive]="['text-success', 'font-weight-bold']"
             >Dashboard</a
           >
         </li>
-        <li *ngIf="!logedIn" class="nav-item">
-            <a
-              [routerLink]="['/login']"
-              class="nav-link"
-              [routerLinkActive]="['text-success', 'font-weight-bold']"
-              >Login</a
-            >
-          </li>
-          <li *ngIf="logedIn" class="nav-item">
-              <a
-              (click)="logOut()"
-                class="nav-link"
-                [routerLinkActive]="['text-success', 'font-weight-bold']"
-                >Logout</a
-              >
-            </li>
+        <li class="nav-item">
+          <a
+            (click)="logOut()"
+            class="nav-link"
+            [routerLinkActive]="['text-success', 'font-weight-bold']"
+            >Logout</a
+          >
+        </li>
+      </ng-template>
+
+      <ng-template #loggedOut>
+        <li class="nav-item">
+          <a
+            [routerLink]="['/login']"
+            class="nav-link"
+            [routerLinkActive]="['text-success', 'font-weight-bold']"
+            >Login</a
+          >
+        </li>
+      </ng-template>
+      <!-- <li class="nav-item">
+        <a
+          [routerLink]="['/dashboard']"
+          class="nav-link"
+          [routerLinkActive]="['text-success', 'font-weight-bold']"
+          >Dashboard</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          (click)="logOut()"
+          class="nav-link"
+          [routerLinkActive]="['text-success', 'font-weight-bold']"
+          >Logout</a
+        >
+      </li>
+
+      <li class="nav-item">
+        <a
+          [routerLink]="['/login']"
+          class="nav-link"
+          [routerLinkActive]="['text-success', 'font-weight-bold']"
+          >Login</a
+        >
+      </li> -->
     </ul>
   </div>
 </nav>

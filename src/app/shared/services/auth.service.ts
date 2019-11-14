@@ -4,13 +4,16 @@ import * as Parse from 'parse';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
 import { ToastService } from './Toast.service';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/store/models/appState.model';
+import { AuthLoggedInAction, AuthLoggedOutAction } from 'src/store/actions/auth.actions';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  constructor(private router: Router, private toasterService: ToastService) {
+  constructor(private router: Router, private toasterService: ToastService, private store: Store<AppState>) {
     // Parse.initialize(environment.appId,environment.javaScriptKey);
     // (Parse as any).serverURL=environment.serverURL;
   }
@@ -56,6 +59,7 @@ export class AuthService {
       this.router.navigate(['/home']);
     }
     this.toasterService.show('Loged out successfully!', { classname: 'bg-danger text-light', delay: 1500 });
+    this.store.dispatch(new AuthLoggedOutAction())
     // if(Parse.User.current()){
     //   Parse.User.logOut().then(() => {
     //     var currentUser = Parse.User.current();  // this will now be null

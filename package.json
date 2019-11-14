@@ -21,6 +21,8 @@
     "@angular/platform-browser-dynamic": "~8.2.3",
     "@angular/router": "~8.2.3",
     "@ng-bootstrap/ng-bootstrap": "^5.1.4",
+    "@ngrx/store": "^8.5.1",
+    "@ngrx/store-devtools": "^8.5.1",
     "@types/parse": "^2.2.15",
     "bootstrap": "^4.3.1",
     "jquery": "^3.4.1",

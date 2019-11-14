@@ -8,11 +8,19 @@ import { LandmarkService } from "./shared/services/landmark.service";
 import { AuthService } from './shared/services/auth.service';
 import { ToastService } from './shared/services/Toast.service';
 import { ToasterModule } from './shared/components/toaster/toaster.module';
+import { StoreModule } from "@ngrx/store";
+import { AuthReducer } from 'src/store/reducers/auth.reducer';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment';
 
 @NgModule({
-  declarations: [AppComponent,],
-  imports: [BrowserModule, AppRoutingModule, SharedModule, NgbModule,ToasterModule],
+  declarations: [AppComponent],
+  imports: [BrowserModule, AppRoutingModule, StoreModule.forRoot(
+    {
+      auth: AuthReducer
+    }
+  ), SharedModule, NgbModule, ToasterModule, StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production })],
   providers: [LandmarkService, AuthService, ToastService],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }
