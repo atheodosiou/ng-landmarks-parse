@@ -43,6 +43,7 @@ export class AuthService {
       Parse.User.logIn(username, password).then((user: Parse.User) => {
         this.sessionToken = user.attributes.sessionToken;
         window.localStorage.setItem('sessionToken', this.sessionToken);
+        console.log(Parse.User.current());
         this._isLogedIn = true;
         this.store.dispatch(new AuthLoggedInAction());
         resolve(user);
@@ -62,7 +63,7 @@ export class AuthService {
       this.router.navigate(['/home']);
 
       // Returns Error => Database adapter error!!!
-
+    // Parse.User.logOut();
 
       // Parse.User.logOut().then((data) => {
       //   console.log(data);
