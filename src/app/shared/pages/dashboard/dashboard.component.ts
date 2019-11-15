@@ -6,6 +6,7 @@ import * as Parse from 'parse';
 // Creates uuids
 import * as uuid from 'uuid/v4';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastService } from '../../services/Toast.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,6 +15,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class DashboardComponent implements OnInit {
 
+  //Variable declarations
   landmarkForm: FormGroup;
   selectedLandmark: Parse.Object;
   selectedLandmarkPhoto: Parse.File;
@@ -21,12 +23,13 @@ export class DashboardComponent implements OnInit {
   fileName = '';
   photoToBeUploaded: File;
 
+  //Used to get the referentce of the modal html template
   @ViewChild('modal', { static: false }) modal: ElementRef
-  constructor(private landmarkService: LandmarkService, private formBuilder: FormBuilder, private modalService: NgbModal) {
-    // Initiallize Parse
-    // Parse.initialize(environment.appId,environment.javaScriptKey);
-    // (Parse as any).serverURL = environment.serverURL;
 
+  constructor(private landmarkService: LandmarkService, private formBuilder: FormBuilder, private modalService: NgbModal,
+    private toasterService:ToastService
+    ) {
+    // Initialization of reactive form
     this.landmarkForm = this.formBuilder.group({
       title: new FormControl('Landmark\'s Title', Validators.required),
       shortInfo: new FormControl('Landmark\'s Short Info', Validators.required),
@@ -35,6 +38,7 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {
+    //Retrieving all landmarks
     this.landmarkService.getLandmarks().then(landmarks => {
       this.landmarks = landmarks;
       console.log(landmarks);
@@ -42,26 +46,23 @@ export class DashboardComponent implements OnInit {
   }
 
   onLandmarkSelect(landmarkID: string) {
+    // Finds the selected landmark based on user selection and sets value on the form
     this.selectedLandmark = this.landmarks.find((l: Parse.Object) => l.id === landmarkID);
     this.landmarkForm.setValue({
       title: this.selectedLandmark.attributes.title,
       shortInfo: this.selectedLandmark.attributes.short_info,
       description: this.selectedLandmark.attributes.description
     });
-
     this.selectedLandmarkPhoto = this.selectedLandmark.get("photo");
-
   }
 
   handleFileInput(files: any) {
     this.photoToBeUploaded = files.item(0);
-    console.log(files.item(0))
-    if (this.isFileSizeAccepted(files.item(0).size)) {
+    if (this.landmarkService.isFileSizeAccepted(files.item(0).size)) {
       this.fileName = files.item(0).name;
       this.photoToBeUploaded = files.item(0);
     } else {
-      console.log('File size not accepted!');
-      alert('File size not accepted!');
+      this.toasterService.show('The size of the image is not accepted!', { classname: 'bg-danger text-light', delay: 1500 });
       if (this.photoToBeUploaded) {
         this.photoToBeUploaded = null;
         this.fileName = 'Choose file';
@@ -69,40 +70,37 @@ export class DashboardComponent implements OnInit {
     }
   }
 
+  //Handle form submit
   onSubmit(value: any) {
     this.showModal(this.modal);
-    // console.log('Form data:',this.landmarkForm.value);
     if (this.photoToBeUploaded && this.selectedLandmark) {
       // set unique name for the file
       // I am doing this in order not to check for valid file names ....
       // Parse does not accept some special chars...
-
       const photo = new Parse.File(uuid(), this.photoToBeUploaded);
       photo.save().then(uploadedPhoto => {
-
-        console.log('Photo uploaded successfuly!', uploadedPhoto);
-        // Toast goes here
-
+        this.toasterService.show(`Photo uploaded successfuly!`, { classname: 'bg-success text-light', delay: 1000 });
         // Update selected landmark with the form's data and file
         this.updateSelectedLandMark(uploadedPhoto).then((parseObject: Parse.Object) => {
           this.updateForm(parseObject);
           this.modalService.dismissAll();
         }).catch(error => {
           this.modalService.dismissAll();
-          console.error(error)
+          this.landmarkService.showError('Update on selected landmar failed!',error);
         });
       }).catch(error => {
         this.modalService.dismissAll();
-        console.error(error)
+        this.landmarkService.showError('Photo upload failed!',error);
       })
     } else {
       // Update selected landmark with the form's data only
       this.updateSelectedLandMark().then((parseObject: Parse.Object) => {
         this.updateForm(parseObject);
         this.modalService.dismissAll();
+        this.toasterService.show(`Photo uploaded successfuly!`, { classname: 'bg-success text-light', delay: 1000 });
       }).catch(error => {
-        console.error(error);
         this.modalService.dismissAll();
+        this.landmarkService.showError('Photo upload failed!',error);
       });
     }
   }
@@ -128,26 +126,15 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  //Setting value to reactive form
   private updateForm(object: Parse.Object) {
-    console.log('Updating form...')
     this.selectedLandmark = object;
     this.landmarkForm.setValue({ title: object.attributes.title, shortInfo: object.attributes.short_info, description: object.attributes.description });
     if (object.attributes.photo) {
-      this.fileName = 'Choose a new photo to replace the existing';
+      this.fileName = object.get('photo.name');
     }
-    console.log('Form updated!')
   }
 
-  private isFileSizeAccepted(fileSize: number): boolean {
-    const size = Math.round((fileSize / 1024));
-    if (size <= 5120) {
-      console.log('file smaller than or equal to 5Mbytes')
-      return true;
-    } else {
-      console.log('file grater than 5Mbytes')
-      return false;
-    }
-  }
 
   private showModal(content) {
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', centered: true, size: 'lg' }).result.then((result) => {
@@ -157,9 +144,9 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  //
   onRemovePhoto(file: Parse.File) {
     console.log(file);
-
   }
 
 }

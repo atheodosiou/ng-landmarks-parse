@@ -29,7 +29,7 @@
           >
             <option selected disabled>Choose a Landmark</option>
             <option *ngFor="let l of landmarks" [value]="l.id">
-              {{ l?.attributes?.title }}</option
+              {{ l.get('title') }}</option
             >
           </select>
         </div>
@@ -53,7 +53,6 @@
           >Short Info</label
         >
         <div class="col-sm-10">
-          <!-- <input type="text" class="form-control" id="info" > -->
           <textarea
             rows="5"
             type="text"
@@ -96,6 +95,7 @@
               type="file"
               class="custom-file-input"
               id="file"
+              accept="image/*"
               aria-describedby="inputGroupFileAddon01"
               (change)="handleFileInput($event.target.files)"
             />
