@@ -35,9 +35,4 @@ export class LoginComponent {
       this.toastService.show(`Login failed! Reason: ${error.message}`, { classname: 'bg-danger text-light', delay: 1500 });
     });
   }
-
-  onLogOut() {
-    this.authService.logOut();
-
-  }
 }

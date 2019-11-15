@@ -3,14 +3,13 @@ import * as Parse from 'parse';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { ToastService } from './Toast.service';
 
 @Injectable({
   providedIn: "root"
 })
 export class LandmarkService {
-  constructor(private http: HttpClient) {
-    // Parse.initialize(environment.appId,environment.javaScriptKey);
-    // (Parse as any).serverURL = environment.serverURL;
+  constructor(private toastService:ToastService) {
   }
 
   private _landmarks: any[];
@@ -49,9 +48,6 @@ export class LandmarkService {
     });
   }
 
-  getData(): Observable<any> {
-    return this.http.get('../../assets/data/landmarks.json')
-  }
 
   fileUpload(file:File){
     if(file){
@@ -59,6 +55,26 @@ export class LandmarkService {
       parseFile.save().then(data=>{console.log('File uploaded to parse server!',data)}).catch(error=>{console.log('Could not updoad the file!')});
     }else{
       console.log('File needed!');
+    }
+  }
+
+  //Validates image file size
+  isFileSizeAccepted(fileSize: number): boolean {
+    const size = Math.round((fileSize / 1024));
+    if (size <= 5120) {
+      // file smaller than or equal to 5Mbytes
+      return true;
+    } else {
+      // file grater than 5Mbytes
+      return false;
+    }
+  }
+
+  showError(message:string,error?){
+    if(error){
+      this.toastService.show(`${message} Reason: ${error.message || error}`, { classname: 'bg-danger text-light', delay: 1500 })
+    }else{
+    this.toastService.show(`${message}`, { classname: 'bg-danger text-light', delay: 1500 });
     }
   }
 }

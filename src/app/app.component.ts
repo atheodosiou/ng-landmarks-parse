@@ -10,12 +10,6 @@ import * as Parse from 'parse';
 })
 export class AppComponent {
   constructor(private router: Router, private authService: AuthService) {
-    // this.router.events.subscribe(event=>{
-    //   if(event instanceof NavigationEnd) {
-    //     console.log('ROUTER EVENT:', event)
-    //     console.log(this.authService.isLogedIn)
-    //   }
-    // })
     Parse.initialize(environment.appId);
     (Parse as any).serverURL = environment.serverURL;
   }

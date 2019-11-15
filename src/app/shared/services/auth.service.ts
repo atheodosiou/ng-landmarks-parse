@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { ToastService } from './Toast.service';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/store/models/appState.model';
-import { AuthLoggedOutAction } from 'src/store/actions/auth.actions';
+import { AuthLoggedOutAction, AuthLoggedInAction } from 'src/store/actions/auth.actions';
 
 @Injectable({
   providedIn: 'root'
@@ -43,7 +43,9 @@ export class AuthService {
       Parse.User.logIn(username, password).then((user: Parse.User) => {
         this.sessionToken = user.attributes.sessionToken;
         window.localStorage.setItem('sessionToken', this.sessionToken);
+        console.log(Parse.User.current());
         this._isLogedIn = true;
+        this.store.dispatch(new AuthLoggedInAction());
         resolve(user);
       }).catch(error => {
         reject(error);
@@ -51,6 +53,7 @@ export class AuthService {
     });
   }
 
+  //Logs out a user
   logOut() {
     if (window.localStorage.getItem('sessionToken')) {
       window.localStorage.removeItem('sessionToken');
@@ -60,7 +63,7 @@ export class AuthService {
       this.router.navigate(['/home']);
 
       // Returns Error => Database adapter error!!!
-
+    // Parse.User.logOut();
 
       // Parse.User.logOut().then((data) => {
       //   console.log(data);
