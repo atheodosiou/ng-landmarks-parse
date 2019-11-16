@@ -8,6 +8,7 @@ import * as uuid from 'uuid/v4';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastService } from '../../services/Toast.service';
 
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -27,8 +28,8 @@ export class DashboardComponent implements OnInit {
   @ViewChild('modal', { static: false }) modal: ElementRef
 
   constructor(private landmarkService: LandmarkService, private formBuilder: FormBuilder, private modalService: NgbModal,
-    private toasterService:ToastService
-    ) {
+    private toasterService: ToastService
+  ) {
     // Initialization of reactive form
     this.landmarkForm = this.formBuilder.group({
       title: new FormControl('Landmark\'s Title', Validators.required),
@@ -80,27 +81,39 @@ export class DashboardComponent implements OnInit {
       const photo = new Parse.File(uuid(), this.photoToBeUploaded);
       photo.save().then(uploadedPhoto => {
         this.toasterService.show(`Photo uploaded successfuly!`, { classname: 'bg-success text-light', delay: 1000 });
-        // Update selected landmark with the form's data and file
-        this.updateSelectedLandMark(uploadedPhoto).then((parseObject: Parse.Object) => {
-          this.updateForm(parseObject);
-          this.modalService.dismissAll();
+        //Create thumbnail
+        this.landmarkService.createTumbnail(this.selectedLandmark.id, uploadedPhoto.url(), Parse.User.current().getSessionToken()).then((thumbnail) => {
+          console.log('Thumbnail created!', thumbnail);
+        }).then(() => {
+          // Update selected landmark with the form's data and file
+          this.updateSelectedLandMark(uploadedPhoto).then((parseObject: Parse.Object) => {
+            this.updateForm(parseObject);
+            this.modalService.dismissAll();
+          }).catch(error => {
+            this.modalService.dismissAll();
+            this.landmarkService.showError('Update on selected landmar failed!', error);
+          });
         }).catch(error => {
-          this.modalService.dismissAll();
-          this.landmarkService.showError('Update on selected landmar failed!',error);
+          console.log(error)
         });
-      }).catch(error => {
-        this.modalService.dismissAll();
-        this.landmarkService.showError('Photo upload failed!',error);
       })
+        .then(() => {
+          //Create thumbnail for the uploaded photo
+
+        })
+        .catch(error => {
+          this.modalService.dismissAll();
+          this.landmarkService.showError('Photo upload failed!', error);
+        })
     } else {
       // Update selected landmark with the form's data only
       this.updateSelectedLandMark().then((parseObject: Parse.Object) => {
         this.updateForm(parseObject);
         this.modalService.dismissAll();
-        this.toasterService.show(`Photo uploaded successfuly!`, { classname: 'bg-success text-light', delay: 1000 });
+        this.toasterService.show(`Landmark uploaded successfuly!`, { classname: 'bg-success text-light', delay: 1000 });
       }).catch(error => {
         this.modalService.dismissAll();
-        this.landmarkService.showError('Photo upload failed!',error);
+        this.landmarkService.showError('Landmark upload failed!', error);
       });
     }
   }
@@ -148,5 +161,4 @@ export class DashboardComponent implements OnInit {
   onRemovePhoto(file: Parse.File) {
     console.log(file);
   }
-
 }

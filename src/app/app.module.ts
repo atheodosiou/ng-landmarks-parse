@@ -12,6 +12,7 @@ import { StoreModule } from "@ngrx/store";
 import { AuthReducer } from 'src/store/reducers/auth.reducer';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [AppComponent],
@@ -20,7 +21,7 @@ import { environment } from '../environments/environment';
       auth: AuthReducer
     }
   ), SharedModule, NgbModule, ToasterModule, StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production })],
-  providers: [LandmarkService, AuthService, ToastService],
+  providers: [LandmarkService, AuthService, ToastService, HttpClientModule],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -12,6 +12,7 @@ export class AppComponent {
   constructor(private router: Router, private authService: AuthService) {
     Parse.initialize(environment.appId);
     (Parse as any).serverURL = environment.serverURL;
+    console.log('PARSE INITIALIZED')
   }
   title = "parse-dashboard";
 }

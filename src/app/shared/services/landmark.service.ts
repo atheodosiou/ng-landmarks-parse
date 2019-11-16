@@ -1,15 +1,14 @@
 import { Injectable } from "@angular/core";
 import * as Parse from 'parse';
 import { environment } from 'src/environments/environment';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
 import { ToastService } from './Toast.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: "root"
 })
 export class LandmarkService {
-  constructor(private toastService:ToastService) {
+  constructor(private toastService: ToastService, private http: HttpClient) {
   }
 
   private _landmarks: any[];
@@ -49,11 +48,11 @@ export class LandmarkService {
   }
 
 
-  fileUpload(file:File){
-    if(file){
-      const parseFile=new Parse.File(file.name,file);
-      parseFile.save().then(data=>{console.log('File uploaded to parse server!',data)}).catch(error=>{console.log('Could not updoad the file!')});
-    }else{
+  fileUpload(file: File) {
+    if (file) {
+      const parseFile = new Parse.File(file.name, file);
+      parseFile.save().then(data => { console.log('File uploaded to parse server!', data) }).catch(error => { console.log('Could not updoad the file!') });
+    } else {
       console.log('File needed!');
     }
   }
@@ -70,11 +69,37 @@ export class LandmarkService {
     }
   }
 
-  showError(message:string,error?){
-    if(error){
+  showError(message: string, error?) {
+    if (error) {
       this.toastService.show(`${message} Reason: ${error.message || error}`, { classname: 'bg-danger text-light', delay: 1500 })
-    }else{
-    this.toastService.show(`${message}`, { classname: 'bg-danger text-light', delay: 1500 });
+    } else {
+      this.toastService.show(`${message}`, { classname: 'bg-danger text-light', delay: 1500 });
     }
+  }
+
+  /**
+   * Create photo thumbnail with sharp library
+   * @param landmarkId 
+   * @param photoUrl 
+   * @param sessionToken 
+   */
+  createTumbnail(landmarkId, photoUrl, sessionToken): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
+      let body = {
+        landmarkId: landmarkId,
+        url: photoUrl,
+        sessionToken: sessionToken
+      };
+      let headers = new HttpHeaders();
+      headers = headers.set('X-Parse-Application-Id', environment.appId).set('Content-Type', 'application/json').set('X-Parse-REST-API-Key', environment.restApiKey);
+      console.log('Headers', headers);
+      this.http.post(`${environment.serverURL}/functions/thumbnail`, body, { headers: headers }).subscribe(
+        (data) => {
+          resolve(data);
+        },
+        (error) => {
+          reject(error);
+        });
+    });
   }
 }
